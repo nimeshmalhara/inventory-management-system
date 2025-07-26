@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Inventory Table</title>
+    <style>
+        body {
+/*************  ✨ Windsurf Command 🌟  *************/
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .inventory-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+/*******  0ac1cf25-2f1a-4eb5-b8f8-e6ecda0aee56  *******/
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .table-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        h1:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .title-edit {
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .inventory-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            background-color: white;
+            border: 2px solid #34495e;
+        }
+        
+        .inventory-table th {
+            background-color: #34495e;
+            color: white;
+            font-weight: bold;
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #2c3e50;
+            font-size: 15px;
+        }
+        
+        .inventory-table td {
+            padding: 10px 15px;
+            border: 1px solid #bdc3c7;
+            background-color: white;
+        }
+        
+        .inventory-table tr:nth-child(even) td {
+            background-color: #f8f9fa;
+        }
+        
+        .inventory-table tr:hover td {
+            background-color: #e3f2fd;
+        }
+        
+        .price-cell {
+            text-align: right;
+            font-weight: bold;
+            color: #27ae60;
+        }
+        
+        .stock-cell {
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .low-stock {
+            color: #e74c3c;
+            background-color: #fdf2f2 !important;
+        }
+        
+        .medium-stock {
+            color: #f39c12;
+        }
+        
+        .high-stock {
+            color: #27ae60;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .category-cell {
+            background-color: #ecf0f1;
+            font-style: italic;
+            color: #7f8c8d;
+        }
+        .btn {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-add {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .btn-add:hover {
+            background-color: #219a52;
+        }
+        
+        .btn-edit {
+            background-color: #3498db;
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        
+        .btn-edit:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-save {
+            background-color: #f39c12;
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        
+        .btn-save:hover {
+            background-color: #e67e22;
+        }
+        
+        .btn-cancel {
+            background-color: #95a5a6;
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .editable-input {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid #bdc3c7;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        
+        .actions-cell {
+            text-align: center;
+            width: 120px;
+        }
+        
+        .image-cell, .logo-cell {
+            text-align: center;
+            width: 80px;
+            padding: 5px;
+        }
+        
+        .product-image, .company-logo {
+            max-width: 60px;
+            max-height: 60px;
+            border-radius: 4px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+        
+        .image-placeholder, .logo-placeholder {
+            width: 60px;
+            height: 60px;
+            background-color: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #6c757d;
+            margin: 0 auto;
+        }
+        
+        .company-cell {
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .file-input {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid #bdc3c7;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        .editable-header {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .editable-header:hover {
+            background-color: #2c3e50 !important;
+        }
+        
+        .header-edit {
+            background-color: white;
+            color: #2c3e50;
+            border: 2px solid #3498db;
+            border-radius: 3px;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .supplier-cell, .location-cell, .status-cell {
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            color: #27ae60;
+            background-color: #d5f4e6 !important;
+        }
+        
+        .status-inactive {
+            color: #e74c3c;
+            background-color: #fdf2f2 !important;
+        }
+        
+        .status-pending {
+            color: #f39c12;
+            background-color: #fef9e7 !important;
+        }
+        
+        .column-management {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .btn-column {
+            background-color: #8e44ad;
+            color: white;
+            padding: 6px 12px;
+            margin: 0 5px;
+            font-size: 12px;
+        }
+        
+        .btn-column:hover {
+            background-color: #7d3c98;
+        }
+        
+        .delete-column-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 6px;
+            font-size: 10px;
+            margin-left: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        
+        .delete-column-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .column-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .modal-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .modal-buttons {
+            text-align: right;
+            margin-top: 15px;
+        }
+        
+        .btn-modal {
+            padding: 8px 16px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn-modal-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-modal-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-modal-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .btn-modal-secondary:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .btn-logout {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-logout:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-logout:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="table-container">
+        <div class="header-section">
+            <h1 id="pageTitle" title="Double-click to edit">📦 Product Inventory Management</h1>
+            <button class="btn-logout" onclick="logout()">
+                <span>🚪</span>
+                Logout
+            </button>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-add" onclick="addNewRow()">➕ Add New Product</button>
+        </div>
+        
+        <div class="column-management">
+            <button class="btn btn-column" onclick="showAddColumnModal()">➕ Add Column</button>
+            <button class="btn btn-column" onclick="toggleDeleteMode()">🗑️ Delete Columns</button>
+        </div>
+        
+        <table class="inventory-table">
+            <thead>
+                <tr id="headerRow">
+                    <th class="editable-header" title="Double-click to edit" data-column-type="image">Image<span class="delete-column-btn" onclick="deleteColumn(0)" style="display:none;">✕</span></th>
+                    <th class="editable-header" title="Double-click to edit" data-column-type="text">Product Name<span class="delete-column-btn" onclick="deleteColumn(1)" style="display:none;">✕</span></th>
+                    <th class="editable-header" title="Double-click to edit" data-column-type="text">Company<span class="delete-column-btn" onclick="deleteColumn(2)" style="display:none;">✕</span></th>
+                    <th class="editable-header" title="Double-click to edit" data-column-type="image">Logo<span class="delete-column-btn" onclick="deleteColumn(3)" style="display:none;">✕</span></th>
+                    <th class="editable-header" title="Double-click to edit" data-column-type="text">Category<span class="delete-column-btn" onclick="deleteColumn(4)" style="display:none;">✕</span></th>
+                    <th class="editable-header" title="Double-click to edit" data-column-type="text">Price<span class="delete-column-btn" onclick="deleteColumn(5)" style="display:none;">✕</span></th>
+                    <th class="editable-header" title="Double-click to edit" data-column-type="number">Stock<span class="delete-column-btn" onclick="deleteColumn(6)" style="display:none;">✕</span></th>
+                    <th class="editable-header" title="Double-click to edit" data-column-type="text">Supplier<span class="delete-column-btn" onclick="deleteColumn(7)" style="display:none;">✕</span></th>
+                    <th class="editable-header" title="Double-click to edit" data-column-type="text">Location<span class="delete-column-btn" onclick="deleteColumn(8)" style="display:none;">✕</span></th>
+                    <th class="editable-header" title="Double-click to edit" data-column-type="select">Status<span class="delete-column-btn" onclick="deleteColumn(9)" style="display:none;">✕</span></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr>
+                    <td class="image-cell">
+                        <div class="image-placeholder">📱</div>
+                    </td>
+                    <td class="product-name">Wireless Bluetooth Headphones</td>
+                    <td class="company-cell">TechCorp</td>
+                    <td class="logo-cell">
+                        <div class="logo-placeholder">🏢</div>
+                    </td>
+                    <td class="category-cell">Electronics</td>
+                    <td class="price-cell">$89.99</td>
+                    <td class="stock-cell high-stock">45</td>
+                    <td class="supplier-cell">AudioSupply Inc.</td>
+                    <td class="location-cell">Warehouse A</td>
+                    <td class="status-cell status-active">Active</td>
+                    <td class="actions-cell">
+                        <button class="btn btn-delete" onclick="deleteRow(this)">🗑️ Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="image-cell">
+                        <div class="image-placeholder">☕</div>
+                    </td>
+                    <td class="product-name">Organic Coffee Beans (1kg)</td>
+                    <td class="company-cell">BrewMaster</td>
+                    <td class="logo-cell">
+                        <div class="logo-placeholder">🌱</div>
+                    </td>
+                    <td class="category-cell">Food & Beverages</td>
+                    <td class="price-cell">$24.50</td>
+                    <td class="stock-cell medium-stock">12</td>
+                    <td class="supplier-cell">FoodDistrib Co.</td>
+                    <td class="location-cell">Warehouse B</td>
+                    <td class="status-cell status-pending">Pending</td>
+                    <td class="actions-cell">
+                        <button class="btn btn-delete" onclick="deleteRow(this)">🗑️ Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="image-cell">
+                        <div class="image-placeholder">🪑</div>
+                    </td>
+                    <td class="product-name">Ergonomic Office Chair</td>
+                    <td class="company-cell">ComfortSeating</td>
+                    <td class="logo-cell">
+                        <div class="logo-placeholder">🏢</div>
+                    </td>
+                    <td class="category-cell">Furniture</td>
+                    <td class="price-cell">$299.00</td>
+                    <td class="stock-cell low-stock">3</td>
+                    <td class="supplier-cell">Office Solutions Ltd.</td>
+                    <td class="location-cell">Warehouse C</td>
+                    <td class="status-cell status-inactive">Inactive</td>
+                    <td class="actions-cell">
+                        <button class="btn btn-delete" onclick="deleteRow(this)">🗑️ Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="image-cell">
+                        <div class="image-placeholder">🍶</div>
+                    </td>
+                    <td class="product-name">Stainless Steel Water Bottle</td>
+                    <td class="company-cell">HydroLife</td>
+                    <td class="logo-cell">
+                        <div class="logo-placeholder">💧</div>
+                    </td>
+                    <td class="category-cell">Home & Garden</td>
+                    <td class="price-cell">$19.95</td>
+                    <td class="stock-cell high-stock">78</td>
+                    <td class="supplier-cell">HomeGoods Direct</td>
+                    <td class="location-cell">Warehouse A</td>
+                    <td class="status-cell status-active">Active</td>
+                    <td class="actions-cell">
+                        <button class="btn btn-delete" onclick="deleteRow(this)">🗑️ Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="image-cell">
+                        <div class="image-placeholder">🎮</div>
+                    </td>
+                    <td class="product-name">Gaming Controller</td>
+                    <td class="company-cell">GameTech</td>
+                    <td class="logo-cell">
+                        <div class="logo-placeholder">🎯</div>
+                    </td>
+                    <td class="category-cell">Electronics</td>
+                    <td class="price-cell">$129.99</td>
+                    <td class="stock-cell medium-stock">18</td>
+                    <td class="supplier-cell">TechGaming Supply</td>
+                    <td class="location-cell">Warehouse D</td>
+                    <td class="status-cell status-active">Active</td>
+                    <td class="actions-cell">
+                        <button class="btn btn-delete" onclick="deleteRow(this)">🗑️ Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Column Modal -->
+    <div id="addColumnModal" class="column-modal" onclick="closeModalOnBackdrop(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">Add New Column</div>
+            <label for="columnName">Column Name:</label>
+            <input type="text" id="columnName" class="modal-input" placeholder="Enter column name">
+            
+            <label for="columnType">Column Type:</label>
+            <select id="columnType" class="modal-input" onchange="toggleSelectOptions()">
+                <option value="text">Text</option>
+                <option value="number">Number</option>
+                <option value="image">Image</option>
+                <option value="select">Dropdown</option>
+            </select>
+            
+            <div id="selectOptions" style="display:none;">
+                <label for="selectValues">Dropdown Options (comma-separated):</label>
+                <input type="text" id="selectValues" class="modal-input" placeholder="Option1, Option2, Option3">
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="btn-modal btn-modal-secondary" onclick="closeAddColumnModal()">Cancel</button>
+                <button class="btn-modal btn-modal-primary" onclick="addNewColumn()">Add Column</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+        // Data persistence using localStorage
+        const STORAGE_KEY = 'productInventoryData';
+        
+        // Add double-click event listeners to existing rows, title, and headers when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDataFromStorage();
+            addDoubleClickListeners();
+            addTitleEditListener();
+            addHeaderEditListeners();
+        });
+        
+        // Save data to localStorage
+        function saveDataToStorage() {
+            const data = {
+                title: document.getElementById('pageTitle').textContent,
+                headers: [],
+                rows: []
+            };
+            
+            // Save headers
+            const headerRow = document.getElementById('headerRow');
+            const headers = headerRow.querySelectorAll('.editable-header');
+            headers.forEach(header => {
+                const headerData = {
+                    text: header.textContent.replace('✕', '').trim(),
+                    columnType: header.getAttribute('data-column-type'),
+                    selectOptions: header.getAttribute('data-select-options')
+                };
+                data.headers.push(headerData);
+            });
+            
+            // Save rows
+            const tableBody = document.getElementById('tableBody');
+            const rows = tableBody.querySelectorAll('tr');
+            rows.forEach(row => {
+                const rowData = [];
+                const cells = row.querySelectorAll('td');
+                
+                // Skip the actions column (last column)
+                for (let i = 0; i < cells.length - 1; i++) {
+                    const cell = cells[i];
+                    const header = headers[i];
+                    const columnType = header ? header.getAttribute('data-column-type') : 'text';
+                    
+                    let cellData = {
+                        type: columnType,
+                        content: '',
+                        className: cell.className
+                    };
+                    
+                    if (columnType === 'image') {
+                        const img = cell.querySelector('img');
+                        cellData.content = img ? img.src : '';
+                        cellData.placeholder = cell.querySelector('.image-placeholder, .logo-placeholder') ?
+                            cell.querySelector('.image-placeholder, .logo-placeholder').textContent : '📷';
+                    } else {
+                        cellData.content = cell.textContent.trim();
+                    }
+                    
+                    rowData.push(cellData);
+                }
+                data.rows.push(rowData);
+            });
+            
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+        
+        // Load data from localStorage
+        function loadDataFromStorage() {
+            const savedData = localStorage.getItem(STORAGE_KEY);
+            if (!savedData) return;
+            
+            try {
+                const data = JSON.parse(savedData);
+                
+                // Restore title
+                if (data.title) {
+                    document.getElementById('pageTitle').textContent = data.title;
+                }
+                
+                // Restore headers
+                if (data.headers && data.headers.length > 0) {
+                    const headerRow = document.getElementById('headerRow');
+                    const existingHeaders = headerRow.querySelectorAll('.editable-header');
+                    
+                    // Clear existing headers except actions
+                    existingHeaders.forEach(header => header.remove());
+                    
+                    // Add saved headers
+                    const actionsHeader = headerRow.querySelector('th:last-child');
+                    data.headers.forEach((headerData, index) => {
+                        const newHeader = document.createElement('th');
+                        newHeader.className = 'editable-header';
+                        newHeader.title = 'Double-click to edit';
+                        newHeader.setAttribute('data-column-type', headerData.columnType);
+                        
+                        if (headerData.selectOptions) {
+                            newHeader.setAttribute('data-select-options', headerData.selectOptions);
+                        }
+                        
+                        newHeader.innerHTML = `${headerData.text}<span class="delete-column-btn" onclick="deleteColumn(${index})" style="display:none;">✕</span>`;
+                        headerRow.insertBefore(newHeader, actionsHeader);
+                    });
+                }
+                
+                // Restore rows
+                if (data.rows && data.rows.length > 0) {
+                    const tableBody = document.getElementById('tableBody');
+                    tableBody.innerHTML = ''; // Clear existing rows
+                    
+                    data.rows.forEach(rowData => {
+                        const newRow = document.createElement('tr');
+                        let rowHTML = '';
+                        
+                        rowData.forEach(cellData => {
+                            if (cellData.type === 'image') {
+                                if (cellData.content) {
+                                    rowHTML += `<td class="${cellData.className}"><img src="${cellData.content}" class="product-image" alt="Image"></td>`;
+                                } else {
+                                    rowHTML += `<td class="${cellData.className}"><div class="image-placeholder">${cellData.placeholder || '📷'}</div></td>`;
+                                }
+                            } else {
+                                rowHTML += `<td class="${cellData.className}">${cellData.content}</td>`;
+                            }
+                        });
+                        
+                        // Add actions cell
+                        rowHTML += `<td class="actions-cell"><button class="btn btn-delete" onclick="deleteRow(this)">🗑️ Delete</button></td>`;
+                        
+                        newRow.innerHTML = rowHTML;
+                        tableBody.appendChild(newRow);
+                    });
+                }
+                
+                // Update column indices after loading
+                updateColumnIndices();
+                
+            } catch (error) {
+                console.error('Error loading data from storage:', error);
+            }
+        }
+        
+        // Column Management Functions
+        let deleteMode = false;
+        
+        function showAddColumnModal() {
+            document.getElementById('addColumnModal').style.display = 'block';
+        }
+        
+        function closeAddColumnModal() {
+            document.getElementById('addColumnModal').style.display = 'none';
+            document.getElementById('columnName').value = '';
+            document.getElementById('columnType').value = 'text';
+            document.getElementById('selectValues').value = '';
+            document.getElementById('selectOptions').style.display = 'none';
+        }
+        
+        function closeModalOnBackdrop(event) {
+            if (event.target === event.currentTarget) {
+                closeAddColumnModal();
+            }
+        }
+        
+        function toggleSelectOptions() {
+            const columnType = document.getElementById('columnType').value;
+            const selectOptions = document.getElementById('selectOptions');
+            selectOptions.style.display = columnType === 'select' ? 'block' : 'none';
+        }
+        
+        function toggleDeleteMode() {
+            deleteMode = !deleteMode;
+            const deleteButtons = document.querySelectorAll('.delete-column-btn');
+            const toggleButton = event.target;
+            
+            deleteButtons.forEach(btn => {
+                btn.style.display = deleteMode ? 'inline-block' : 'none';
+            });
+            
+            toggleButton.textContent = deleteMode ? '✅ Done' : '🗑️ Delete Columns';
+            toggleButton.style.backgroundColor = deleteMode ? '#27ae60' : '#8e44ad';
+        }
+        
+        function addNewColumn() {
+            const columnName = document.getElementById('columnName').value.trim();
+            const columnType = document.getElementById('columnType').value;
+            const selectValues = document.getElementById('selectValues').value.trim();
+            
+            if (!columnName) {
+                alert('Please enter a column name');
+                return;
+            }
+            
+            if (columnType === 'select' && !selectValues) {
+                alert('Please enter dropdown options');
+                return;
+            }
+            
+            // Add header
+            const headerRow = document.getElementById('headerRow');
+            const actionsHeader = headerRow.lastElementChild;
+            const newHeader = document.createElement('th');
+            const columnIndex = headerRow.children.length - 1; // This will be the index of the new column
+            
+            newHeader.className = 'editable-header';
+            newHeader.title = 'Double-click to edit';
+            newHeader.setAttribute('data-column-type', columnType);
+            
+            // Store select options for later use
+            if (columnType === 'select' && selectValues) {
+                newHeader.setAttribute('data-select-options', selectValues);
+            }
+            
+            newHeader.innerHTML = `${columnName}<span class="delete-column-btn" onclick="deleteColumn(${columnIndex})" style="display:${deleteMode ? 'inline-block' : 'none'};">✕</span>`;
+            
+            headerRow.insertBefore(newHeader, actionsHeader);
+            
+            // Add cells to existing rows
+            const rows = document.querySelectorAll('#tableBody tr');
+            rows.forEach(row => {
+                const newCell = document.createElement('td');
+                newCell.className = getColumnCellClass(columnType);
+                
+                if (columnType === 'image') {
+                    newCell.innerHTML = '<div class="image-placeholder">📷</div>';
+                } else if (columnType === 'select' && selectValues) {
+                    const options = selectValues.split(',').map(opt => opt.trim());
+                    newCell.innerHTML = options[0] || '';
+                    newCell.className += ' status-active';
+                } else {
+                    newCell.innerHTML = '-';
+                }
+                
+                const actionsCell = row.lastElementChild;
+                row.insertBefore(newCell, actionsCell);
+            });
+            
+            // Update all column indices after adding the new column
+            updateColumnIndices();
+            
+            // Re-add header edit listeners
+            addHeaderEditListeners();
+            
+            closeAddColumnModal();
+            saveDataToStorage(); // Save changes
+        }
+        
+        function deleteColumn(columnIndex) {
+            if (!confirm('Are you sure you want to delete this column?')) {
+                return;
+            }
+            
+            // Remove header
+            const headerRow = document.getElementById('headerRow');
+            headerRow.children[columnIndex].remove();
+            
+            // Remove cells from all rows
+            const rows = document.querySelectorAll('#tableBody tr');
+            rows.forEach(row => {
+                if (row.children[columnIndex]) {
+                    row.children[columnIndex].remove();
+                }
+            });
+            
+            // Update column indices for remaining delete buttons
+            updateColumnIndices();
+            saveDataToStorage(); // Save changes
+        }
+        
+        function updateColumnIndices() {
+            const headerRow = document.getElementById('headerRow');
+            const headers = headerRow.querySelectorAll('.editable-header');
+            headers.forEach((header, index) => {
+                const deleteBtn = header.querySelector('.delete-column-btn');
+                if (deleteBtn) {
+                    deleteBtn.setAttribute('onclick', `deleteColumn(${index})`);
+                }
+            });
+        }
+        
+        function getColumnCellClass(columnType) {
+            switch(columnType) {
+                case 'image': return 'image-cell';
+                case 'number': return 'stock-cell';
+                case 'select': return 'status-cell';
+                default: return 'product-name';
+            }
+        }
+        
+        function addTitleEditListener() {
+            const title = document.getElementById('pageTitle');
+            title.addEventListener('dblclick', function() {
+                editTitle();
+            });
+        }
+        
+        function addHeaderEditListeners() {
+            const headers = document.querySelectorAll('.editable-header');
+            headers.forEach(header => {
+                header.addEventListener('dblclick', function() {
+                    editHeader(this);
+                });
+            });
+        }
+        
+        function editHeader(header) {
+            const deleteBtn = header.querySelector('.delete-column-btn');
+            const currentText = header.textContent.replace('✕', '').trim();
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'header-edit';
+            input.value = currentText;
+            
+            header.style.display = 'none';
+            header.parentNode.insertBefore(input, header);
+            
+            input.focus();
+            input.select();
+            
+            function saveHeader() {
+                const newText = input.value.trim() || currentText;
+                const deleteBtnHTML = deleteBtn ? deleteBtn.outerHTML : '';
+                header.innerHTML = newText + deleteBtnHTML;
+                header.style.display = '';
+                input.remove();
+                saveDataToStorage(); // Save changes
+            }
+            
+            input.addEventListener('blur', saveHeader);
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    saveHeader();
+                }
+            });
+        }
+        
+        function editTitle() {
+            const title = document.getElementById('pageTitle');
+            const currentText = title.textContent;
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'title-edit';
+            input.value = currentText;
+            
+            title.style.display = 'none';
+            title.parentNode.insertBefore(input, title);
+            
+            input.focus();
+            input.select();
+            
+            function saveTitle() {
+                const newText = input.value.trim() || currentText;
+                title.textContent = newText;
+                title.style.display = 'block';
+                input.remove();
+                saveDataToStorage(); // Save changes
+            }
+            
+            input.addEventListener('blur', saveTitle);
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    saveTitle();
+                }
+            });
+        }
+        
+        function addDoubleClickListeners() {
+            const rows = document.querySelectorAll('#tableBody tr');
+            rows.forEach(row => {
+                // Only add listener if row is not already in edit mode
+                if (!row.querySelector('.editable-input')) {
+                    row.addEventListener('dblclick', function() {
+                        editRow(this);
+                    });
+                    // Add visual hint for double-click
+                    row.style.cursor = 'pointer';
+                    row.title = 'Double-click to edit';
+                }
+            });
+        }
+        
+        function addNewRow() {
+            const tableBody = document.getElementById('tableBody');
+            const newRow = document.createElement('tr');
+            const headerRow = document.getElementById('headerRow');
+            const headers = headerRow.querySelectorAll('.editable-header');
+            
+            let rowHTML = '';
+            
+            headers.forEach((header, index) => {
+                const columnType = header.getAttribute('data-column-type');
+                const columnName = header.textContent.replace('✕', '').trim();
+                
+                switch(columnType) {
+                    case 'image':
+                        rowHTML += `
+                            <td class="image-cell">
+                                <input type="file" class="file-input" accept="image/*" onchange="previewImage(this)">
+                                <div class="image-placeholder">📷</div>
+                            </td>
+                        `;
+                        break;
+                    case 'number':
+                        rowHTML += `
+                            <td class="stock-cell">
+                                <input type="number" class="editable-input" placeholder="0" value="">
+                            </td>
+                        `;
+                        break;
+                    case 'select':
+                        // For dynamically added select columns, we need to get the options
+                        const selectValues = header.getAttribute('data-select-options');
+                        let optionsHTML = '<option value="">Select option</option>';
+                        
+                        if (selectValues) {
+                            const options = selectValues.split(',').map(opt => opt.trim());
+                            options.forEach(option => {
+                                optionsHTML += `<option value="${option}">${option}</option>`;
+                            });
+                        } else {
+                            // Default options for status column
+                            optionsHTML += `
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Pending">Pending</option>
+                            `;
+                        }
+                        
+                        rowHTML += `
+                            <td class="status-cell">
+                                <select class="editable-input">
+                                    ${optionsHTML}
+                                </select>
+                            </td>
+                        `;
+                        break;
+                    default: // text
+                        const placeholder = `Enter ${columnName.toLowerCase()}`;
+                        rowHTML += `
+                            <td class="product-name">
+                                <input type="text" class="editable-input" placeholder="${placeholder}" value="">
+                            </td>
+                        `;
+                        break;
+                }
+            });
+            
+            // Add actions cell
+            rowHTML += `
+                <td class="actions-cell">
+                    <button class="btn btn-save" onclick="saveRow(this)">💾 Save</button>
+                    <button class="btn btn-cancel" onclick="cancelEdit(this)">❌ Cancel</button>
+                </td>
+            `;
+            
+            newRow.innerHTML = rowHTML;
+            tableBody.appendChild(newRow);
+        }
+        
+        function previewImage(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const placeholder = input.nextElementSibling;
+                    placeholder.innerHTML = `<img src="${e.target.result}" class="product-image" alt="Product Image">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function previewLogo(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const placeholder = input.nextElementSibling;
+                    placeholder.innerHTML = `<img src="${e.target.result}" class="company-logo" alt="Company Logo">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function editRow(row) {
+            // If row is already in edit mode, don't do anything
+            if (row.querySelector('.editable-input')) {
+                return;
+            }
+            
+            const cells = row.querySelectorAll('td');
+            const headerRow = document.getElementById('headerRow');
+            const headers = headerRow.querySelectorAll('.editable-header');
+            const dataCellsCount = headers.length;
+            
+            // Store original values for all data cells
+            const originalValues = [];
+            for (let i = 0; i < dataCellsCount; i++) {
+                const header = headers[i];
+                const columnType = header.getAttribute('data-column-type');
+                
+                if (columnType === 'image') {
+                    const img = cells[i].querySelector('img');
+                    originalValues.push(img ? img.src : '');
+                } else {
+                    originalValues.push(cells[i].textContent);
+                }
+            }
+            row.setAttribute('data-original', JSON.stringify(originalValues));
+            
+            // Convert cells to input fields based on column types
+            headers.forEach((header, index) => {
+                const columnType = header.getAttribute('data-column-type');
+                const currentValue = cells[index].textContent;
+                
+                switch(columnType) {
+                    case 'image':
+                        const currentImage = cells[index].querySelector('img');
+                        cells[index].innerHTML = `
+                            <input type="file" class="file-input" accept="image/*" onchange="previewImage(this)">
+                            <div class="image-placeholder">${currentImage ? `<img src="${currentImage.src}" class="product-image" alt="Image">` : '📷'}</div>
+                        `;
+                        break;
+                    case 'number':
+                        cells[index].innerHTML = `<input type="number" class="editable-input" value="${currentValue}">`;
+                        break;
+                    case 'select':
+                        const selectOptions = header.getAttribute('data-select-options');
+                        let optionsHTML = '';
+                        
+                        if (selectOptions) {
+                            const options = selectOptions.split(',').map(opt => opt.trim());
+                            options.forEach(option => {
+                                optionsHTML += `<option value="${option}" ${currentValue === option ? 'selected' : ''}>${option}</option>`;
+                            });
+                        } else {
+                            // Default options for status column
+                            optionsHTML = `
+                                <option value="Active" ${currentValue === 'Active' ? 'selected' : ''}>Active</option>
+                                <option value="Inactive" ${currentValue === 'Inactive' ? 'selected' : ''}>Inactive</option>
+                                <option value="Pending" ${currentValue === 'Pending' ? 'selected' : ''}>Pending</option>
+                            `;
+                        }
+                        
+                        cells[index].innerHTML = `
+                            <select class="editable-input">
+                                ${optionsHTML}
+                            </select>
+                        `;
+                        break;
+                    default: // text
+                        cells[index].innerHTML = `<input type="text" class="editable-input" value="${currentValue}">`;
+                        break;
+                }
+            });
+            
+            // Change action buttons to include save and cancel
+            const actionsIndex = dataCellsCount;
+            cells[actionsIndex].innerHTML = `
+                <button class="btn btn-save" onclick="saveRow(this)">💾 Save</button>
+                <button class="btn btn-cancel" onclick="cancelEdit(this)">❌ Cancel</button>
+                <button class="btn btn-delete" onclick="deleteRow(this)">🗑️ Delete</button>
+            `;
+            
+            // Remove double-click listener and cursor style while editing
+            row.removeEventListener('dblclick', editRow);
+            row.style.cursor = 'default';
+            row.title = '';
+        }
+        
+        function saveRow(button) {
+            const row = button.closest('tr');
+            const inputs = row.querySelectorAll('input[type="text"], input[type="number"]');
+            const selects = row.querySelectorAll('select');
+            const cells = row.querySelectorAll('td');
+            const headerRow = document.getElementById('headerRow');
+            const headers = headerRow.querySelectorAll('.editable-header');
+            
+            // Validate text inputs (skip file inputs)
+            let hasEmptyFields = false;
+            inputs.forEach(input => {
+                if (input.type !== 'file' && !input.value.trim()) {
+                    hasEmptyFields = true;
+                }
+            });
+            
+            // Validate selects
+            selects.forEach(select => {
+                if (!select.value) {
+                    hasEmptyFields = true;
+                }
+            });
+            
+            if (hasEmptyFields) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Update cells based on column types
+            headers.forEach((header, index) => {
+                const columnType = header.getAttribute('data-column-type');
+                const cell = cells[index];
+                
+                switch(columnType) {
+                    case 'image':
+                        const imageDiv = cell.querySelector('.image-placeholder');
+                        const imageContent = imageDiv.innerHTML;
+                        cell.innerHTML = imageContent.includes('<img') ? imageContent : '<div class="image-placeholder">📷</div>';
+                        cell.className = 'image-cell';
+                        break;
+                    case 'number':
+                        const numberInput = cell.querySelector('input[type="number"]');
+                        const numberValue = parseInt(numberInput.value);
+                        let numberClass = 'high-stock';
+                        if (numberValue <= 5) {
+                            numberClass = 'low-stock';
+                        } else if (numberValue <= 20) {
+                            numberClass = 'medium-stock';
+                        }
+                        cell.innerHTML = numberInput.value;
+                        cell.className = `stock-cell ${numberClass}`;
+                        break;
+                    case 'select':
+                        const selectElement = cell.querySelector('select');
+                        const selectValue = selectElement.value;
+                        let selectClass = 'status-active';
+                        if (selectValue === 'Inactive') {
+                            selectClass = 'status-inactive';
+                        } else if (selectValue === 'Pending') {
+                            selectClass = 'status-pending';
+                        }
+                        cell.innerHTML = selectValue;
+                        cell.className = `status-cell ${selectClass}`;
+                        break;
+                    default: // text
+                        const textInput = cell.querySelector('input[type="text"]');
+                        cell.innerHTML = textInput.value;
+                        cell.className = getColumnCellClass(columnType);
+                        break;
+                }
+            });
+            
+            // Restore action buttons (only delete button)
+            const actionsIndex = headers.length;
+            cells[actionsIndex].innerHTML = `
+                <button class="btn btn-delete" onclick="deleteRow(this)">🗑️ Delete</button>
+            `;
+            
+            // Remove original data attribute
+            row.removeAttribute('data-original');
+            
+            // Re-add double-click listener
+            row.addEventListener('dblclick', function() {
+                editRow(this);
+            });
+            row.style.cursor = 'pointer';
+            row.title = 'Double-click to edit';
+            saveDataToStorage(); // Save changes
+        }
+        
+        function cancelEdit(button) {
+            const row = button.closest('tr');
+            const cells = row.querySelectorAll('td');
+            const originalData = row.getAttribute('data-original');
+            const headerRow = document.getElementById('headerRow');
+            const headers = headerRow.querySelectorAll('.editable-header');
+            
+            if (originalData) {
+                // Restore original values
+                const originalValues = JSON.parse(originalData);
+                
+                headers.forEach((header, index) => {
+                    const columnType = header.getAttribute('data-column-type');
+                    const cell = cells[index];
+                    const originalValue = originalValues[index];
+                    
+                    switch(columnType) {
+                        case 'image':
+                            if (originalValue) {
+                                cell.innerHTML = `<img src="${originalValue}" class="product-image" alt="Image">`;
+                            } else {
+                                cell.innerHTML = '<div class="image-placeholder">📷</div>';
+                            }
+                            cell.className = 'image-cell';
+                            break;
+                        case 'number':
+                            const numberValue = parseInt(originalValue);
+                            let numberClass = 'high-stock';
+                            if (numberValue <= 5) {
+                                numberClass = 'low-stock';
+                            } else if (numberValue <= 20) {
+                                numberClass = 'medium-stock';
+                            }
+                            cell.innerHTML = originalValue;
+                            cell.className = `stock-cell ${numberClass}`;
+                            break;
+                        case 'select':
+                            let selectClass = 'status-active';
+                            if (originalValue === 'Inactive') {
+                                selectClass = 'status-inactive';
+                            } else if (originalValue === 'Pending') {
+                                selectClass = 'status-pending';
+                            }
+                            cell.innerHTML = originalValue;
+                            cell.className = `status-cell ${selectClass}`;
+                            break;
+                        default: // text
+                            cell.innerHTML = originalValue;
+                            cell.className = getColumnCellClass(columnType);
+                            break;
+                    }
+                });
+                
+                // Restore action buttons (only delete button)
+                const actionsIndex = headers.length;
+                cells[actionsIndex].innerHTML = `
+                    <button class="btn btn-delete" onclick="deleteRow(this)">🗑️ Delete</button>
+                `;
+                
+                row.removeAttribute('data-original');
+                
+                // Re-add double-click listener
+                row.addEventListener('dblclick', function() {
+                    editRow(this);
+                });
+                row.style.cursor = 'pointer';
+                row.title = 'Double-click to edit';
+            } else {
+                // This is a new row, remove it
+                row.remove();
+            }
+        }
+        
+        function deleteRow(button) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                const row = button.closest('tr');
+                row.remove();
+                saveDataToStorage(); // Save changes
+            }
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear any session data if needed
+                // Redirect to login page
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>
